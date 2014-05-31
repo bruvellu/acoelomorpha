@@ -11,10 +11,10 @@ Phylogenomics of Acoelomorpha
 Fetching SRA packages
 ---------------------
 
-I develop the python module [fetch_sra.py](fetch_sra.py) to search and fetch
+I develop the python module [fetch_sra.py](sra/fetch_sra.py) to search and fetch
 packages from [SRA Database](http://www.ncbi.nlm.nih.gov/sra/). Using a defined
 set of criteria I (1) searched SRA packages, (2) filtered packages that matched
-these parameters. The commands are described in [acoel_sra.py](acoel_sra).
+these parameters. The commands are described in [acoel_sra.py](sra/acoel_sra.py).
 
 Search criteria:
 
@@ -30,9 +30,9 @@ Post-search filter criteria:
 
 My initial search yield 3117 packages and 736 met our post-search filter
 requirements. The packages were written to
-[sra_paired_gte70bp.csv](sra_paired_gte70bp.csv). These packages cover 91
+[sra_paired_gte70bp.csv](sra/sra_paired_gte70bp.csv). These packages cover 91
 unique organisms, shown in
-[unique_sra_paired_gte70bp.csv](unique_sra_paired_gte70bp.csv).
+[unique_sra_paired_gte70bp.csv](sra/unique_sra_paired_gte70bp.csv).
 
 Package curation
 ----------------
