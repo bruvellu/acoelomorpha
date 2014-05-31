@@ -73,7 +73,7 @@ class SRASearch:
 
         # Additional attributes.
         self.results = None
-        #self.database = SRADatabase()
+        self.database = SRADatabase()
         # TODO Add timestamp.
 
     def esearch(self):
@@ -247,12 +247,12 @@ class SRAPackage:
 
         # Fetch row with taxon_id.
         taxon_row = cached_taxa[cached_taxa.taxon_id == self.taxon_id]
-        if taxon_row:
+        if not taxon_row.empty:
             self.scientific_name = taxon_row.scientific_name.values[0]
             self.lineage = taxon_row.lineage.values[0]
         else:
             print('Taxon %d not in cache. Fetching...' % self.taxon_id)
-            handle = Entrez.efetch(db='taxonomy', id=self.taxon_id)
+            handle = Entrez.efetch(db='taxonomy', id=str(self.taxon_id))
             taxon = Entrez.read(handle)
             self.scientific_name = taxon[0]['ScientificName']
             self.lineage = taxon[0]['Lineage'] + '; ' + self.scientific_name
@@ -286,11 +286,11 @@ class FilterPackages:
             header = package.header
         self.data_frame = pd.DataFrame(data, index=index_ids, columns=header)
 
-    def write_csv(self, filename):
+    def write_csv(self, basename):
         '''Write CSV file from data frame.'''
-        self.data_frame.to_csv('unfiltered_' + filename, index=False)
-        self.filtered_data_frame.to_csv(filename, index=False)
-        print('\n%d of %d packages written to "%s" after filtering.\n' % (self.filtered_data_frame.index.size, self.data_frame.index.size, filename))
+        self.data_frame.to_csv(basename + '_unfiltered' + '.csv', index=False)
+        self.filtered_data_frame.to_csv(basename + '.csv', index=False)
+        print('\n%d of %d packages written to "%s" after filtering.\n' % (self.filtered_data_frame.index.size, self.data_frame.index.size, basename + '.csv'))
 
 
 def main():
@@ -333,7 +333,7 @@ def main():
     # Example of filter booleans using Pandas data frame.
     # Only get rows whose 'library_layout' column equals 'PAIRED', 'nreads' is
     # greater than 1, and 'read_average' is greater or equal than 70.
-    filtered_df = df[df.library_layout == 'PAIRED'][df.nreads > 1][df.read_average >= 70]
+    #filtered_df = df[df.library_layout == 'PAIRED'][df.nreads > 1][df.read_average >= 70]
 
     # Write CSV out.
     packages_to_filter.write_csv(args.output)

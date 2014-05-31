@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 '''Search, fetch, and filter SRA packages for acoels phylogenomics.'''
 
+from datetime import date
 from fetch_sra import SRASearch, SRAPackage, FilterPackages
 from email import email_bruno
 
+# Today:
+today = date.today()
 # Define basename for output files.
-basename = 'sra_paired_gte70bp'
-#basename = 'testing'
+basename = 'paired_gte70bp_%s' % today.strftime('%Y%m%d')
 
 # Search for RNAseq by Illumina or 454 only metazoans, but not vertebrates nor insects
 # later than year 2000.
@@ -15,7 +17,7 @@ illumina[Properties]) OR platform LS454[Properties]) AND metazoa[Organism]) NOT
 vertebrata[Organism]) NOT insects[Organism]) AND ("200"[Modification Date] : "3000"[Modification Date])'''
 
 # Maximum number of returned results.
-retmax = 5000
+retmax = 30
 
 # Instantiate search object.
 sra_search = SRASearch(query=query, retmax=retmax, email=email_bruno)
@@ -40,8 +42,8 @@ sorted_df = filtered_df.sort('lineage')
 
 # Write CSV out.
 package_filter.filtered_data_frame = sorted_df
-package_filter.write_csv(basename + '.csv')
+package_filter.write_csv(basename)
 
 # Write unique list of taxa.
 unique = package_filter.filtered_data_frame.lineage.unique()
-unique.tofile('unique_' + basename + '.txt', sep='\n')
+unique.tofile(basename + '_unique' + '.txt', sep='\n')
