@@ -229,13 +229,19 @@ class SRAPackage:
         self.instrument_model = fields['instrument_model']
         self.taxon_id = int(fields['taxon_id'])
         self.scientific_name = fields['scientific_name']
-        self.run_accession = fields['run_accession']
         self.nreads = int(fields['nreads'])
         self.read_average = int(float(fields['read_average']))
-        self.total_spots = int(fields['total_spots'])
-        self.total_bases = int(fields['total_bases'])
-        self.size = int(fields['size'])
-        self.published = fields['published']
+        self.run_accession = fields['run_accession']
+        if self.run_accession:
+            self.total_spots = int(fields['total_spots'])
+            self.total_bases = int(fields['total_bases'])
+            self.size = int(fields['size'])
+            self.published = fields['published']
+        else:
+            self.total_spots = 0
+            self.total_bases = 0
+            self.size = 0
+            self.published = ''
 
     def get_lineage(self):
         '''Fetch hierarchy from NCBI's Taxonomy database.'''
