@@ -17,7 +17,7 @@ illumina[Properties]) OR platform LS454[Properties]) AND metazoa[Organism]) NOT
 vertebrata[Organism]) NOT insects[Organism]) AND ("200"[Modification Date] : "3000"[Modification Date])'''
 
 # Maximum number of returned results.
-retmax = 30
+retmax = 6000
 
 # Instantiate search object.
 sra_search = SRASearch(query=query, retmax=retmax, email=email_bruno)
