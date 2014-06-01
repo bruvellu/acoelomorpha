@@ -267,10 +267,6 @@ class SRAPackage:
                                              'scientific_name': self.scientific_name}])
             new_cache.to_csv('.cache/taxa.csv')
 
-#grouped_sra = sorted_sra.groupby('taxon_id')
-#index = [gp_keys[0] for gp_keys in grouped_sra.groups.values()]
-#unique_taxa = sorted_sra.reindex(index, ['taxon_id', 'lineage', 'scientific_name'])
-
 
 class FilterPackages:
     '''Build data frame with package metadata for filtering.'''
